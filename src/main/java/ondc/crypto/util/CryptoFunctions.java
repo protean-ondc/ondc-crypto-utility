@@ -3,11 +3,13 @@
  */
 	package ondc.crypto.util;
 	
-	import java.security.InvalidKeyException;
+	import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 	import java.security.KeyFactory;
 	import java.security.KeyPair;
 	import java.security.KeyPairGenerator;
-	import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 	import java.security.NoSuchProviderException;
 	import java.security.PrivateKey;
 	import java.security.PublicKey;
@@ -16,7 +18,9 @@
 	import java.security.spec.InvalidKeySpecException;
 	import java.security.spec.PKCS8EncodedKeySpec;
 	import java.security.spec.X509EncodedKeySpec;
-	import javax.crypto.BadPaddingException;
+import java.util.Base64;
+
+import javax.crypto.BadPaddingException;
 	import javax.crypto.Cipher;
 	import javax.crypto.IllegalBlockSizeException;
 	import javax.crypto.KeyAgreement;
@@ -28,8 +32,9 @@
 
 
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class CryptoFunctions provides generation of key pairs for signing and encryption along with signing, verification, encryption and decryption
+ * The Class CryptoFunctions provides generation of key pairs for signing and encryption along with signing, verification, encryption and decryption.
  */
 public class CryptoFunctions {
 
@@ -39,6 +44,9 @@ public class CryptoFunctions {
 	
 	/** The Constant AES. */
 	private static final String AES="AES";
+	
+	/** The Constant BLAKE2B_512. */
+	private static final String BLAKE2B_512="BLAKE2B-512";
 
 		/**
 		 * <p>This method generates ED25519 32 byte/256 bits key pair (Private and Public) for Signing
@@ -57,7 +65,8 @@ public class CryptoFunctions {
 
 		 * @author SujeetS
 		 * @return the crypto key pair
-		 * @see CryptoFunctions#sign(byte[], byte[]), {@link CryptoFunctions#verify(byte[], byte[], byte[])}
+		 * @see CryptoFunctions#sign(byte[], byte[])
+		 * @see CryptoFunctions#verify(byte[], byte[], byte[])
 		 * @since 0.1
 		 */
 		
@@ -70,9 +79,13 @@ public class CryptoFunctions {
 		 	byte[] privateKey = new byte[Ed25519.SECRET_KEY_SIZE]; //32 Byte or 256 bits
 	        byte[] publicKey = new byte[Ed25519.PUBLIC_KEY_SIZE];  //32 Byte or 256 bits
 	        
+	        // generate private key using secure random
 	        RANDOM.nextBytes(privateKey);
+	        
+	        // generate public key 
 	        Ed25519.generatePublicKey(privateKey, 0, publicKey, 0);
-
+	        
+	        // store generated key pair and return the same
 	        CryptoKeyPair signingKeyPair=new CryptoKeyPair(publicKey,privateKey) ;
 	    	return signingKeyPair;
 		}
@@ -101,7 +114,10 @@ public class CryptoFunctions {
 		 * @since 0.1
 		 */
 		public static byte[] sign(byte[] privateKey,byte[] message) {
+			// initialise signature variable
 			byte[] signature = new byte[Ed25519.SIGNATURE_SIZE];
+			
+			// sign the received message with given private key
 			Ed25519.sign(privateKey, 0, message, 0, message.length, signature, 0);
             return signature; 
 		}
@@ -127,6 +143,7 @@ public class CryptoFunctions {
 		 * @see ondc.crypto.util.CryptoFunctions#sign(byte[], byte[])		 * 
 		 */
 		public static boolean verify(byte[] signature,byte[] message, byte[] publicKey) {
+			//verify the given signature with 
 			return Ed25519.verify(signature, 0, publicKey, 0, message, 0, message.length);
 		}
 		
@@ -233,6 +250,27 @@ public class CryptoFunctions {
 			
 		}
 
+		
+
+		/**
+		 * Generate blake hash.
+		 * 
+		 * <pre style="background-color:black;color:white;font-family: Lucida Console, Courier New, monospace">
+		 * String message = "message to hash";
+		 * byte[] hash_1=CryptoFunctions.generateBlakeHash(message);
+		 * String bs64_1 = Base64.getEncoder().encodeToString(hash_1);
+		 * System.out.println(bs64_1);
+		 * </pre>
+		 * @param req the message for which digest(blake2b hash) needs to be generated
+		 * @return the byte[] hash value
+		 * @throws Exception the exception
+		 */
+		public static byte[] generateBlakeHash(String req) throws Exception {
+			MessageDigest digest = MessageDigest.getInstance(BLAKE2B_512, BouncyCastleProvider.PROVIDER_NAME);
+			digest.reset();
+			digest.update(req.getBytes(StandardCharsets.UTF_8));
+			return digest.digest();
+		}
 		
 	}
 
