@@ -5,12 +5,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ondc.crypto.util</groupId>
+	<groupId>org.ondc</groupId>
 	<artifactId>ondc-crypto-util</artifactId>
 	<version>0.1-GA</version>
 
 
-	<name>ondc-crypto-util</name>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>This project has been created with an intension to help and assist ONDC Network Participants to build their own crypto libraries that are required for interaction in ONDC Network It covers key generation, signing, verification, encryption and decryption.</description>
 	<url>https://github.com/protean-ondc/ondc-crypto-utility</url>
 
 	<properties>

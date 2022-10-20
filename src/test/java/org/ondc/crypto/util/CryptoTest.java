@@ -1,4 +1,4 @@
-package ondc.crypto.util;
+package org.ondc.crypto.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
