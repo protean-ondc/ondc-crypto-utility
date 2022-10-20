@@ -139,8 +139,8 @@ public class CryptoFunctions {
 		 * @param message the message that needs to verified along with signature
 		 * @param publicKey the public key to be used for verifying the signature
 		 * @return true, if successful
-		 * @see ondc.crypto.util.CryptoFunctions#generateSigningKeyPair()
-		 * @see ondc.crypto.util.CryptoFunctions#sign(byte[], byte[])		 * 
+		 * @see CryptoFunctions#generateSigningKeyPair()
+		 * @see CryptoFunctions#sign(byte[], byte[])		 * 
 		 */
 		public static boolean verify(byte[] signature,byte[] message, byte[] publicKey) {
 			//verify the given signature with 
