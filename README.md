@@ -16,6 +16,6 @@ https://protean-ondc.github.io/ondc-crypto-utility/ondc/crypto/util/package-summ
 In root project folder issue below command. Ensure you have maven installed.
 ``mvn package``
 
-## Download 0.1-GA jar
+## Downloads
 [Download 0.1-GA jar](./target/ondc-crypto-util-0.1-GA.jar)
 
