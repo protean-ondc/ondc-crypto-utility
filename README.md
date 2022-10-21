@@ -10,10 +10,13 @@ It covers key generation, signing, verification, encryption and decryption.
 [CryptoTest](./src/test/java/org/ondc/crypto/util/CryptoTest.java) Class has all test methods that can be referred to get an idea on how to use this library
 
 ## Documentation
-https://protean-ondc.github.io/ondc-crypto-utility/ondc/crypto/util/package-summary.html
+
+[Java Docs](https://protean-ondc.github.io/ondc-crypto-utility/org/ondc/crypto/util/package-summary.html)
+
 
 ## Packaging
 In root project folder issue below command. Ensure you have maven installed.
+<br><br>
 ``mvn package``
 
 ## Downloads
